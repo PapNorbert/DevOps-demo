@@ -2,3 +2,13 @@
 
 #  ssh keys
 az_vm_key_pn*
+
+# variable values
+terraform.tfvars
+
+*tfstate*
+
+.terraform
+
+# service principle informations
+sp_data
