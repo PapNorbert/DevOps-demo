@@ -1,0 +1,64 @@
+- name: Start and enable Grafana service
+  systemd:
+    name: grafana-server
+    state: started
+    enabled: yes
+
+- name: Create dashboards directory if it doesn't exist
+  file:
+    path: /var/lib/grafana/dashboards
+    state: directory
+
+- name: Copy dashboard JSON file
+  copy:
+    src: LeanAgileDevOps-1706725277490.json
+    dest: /var/lib/grafana/dashboards/LeanAgileDevOps.json
+
+- name: Set permissions on dashboard
+  file:
+    path: /var/lib/grafana/dashboards/LeanAgileDevOps.json
+    owner: prometheus
+    group: prometheus
+    mode: "0644"
+
+- name: Copy Prometheus configuration file
+  copy:
+    src: prometheus.yml
+    dest: /etc/prometheus/prometheus.yml
+
+- name: Set permissions on Prometheus configuration file
+  file:
+    path: /etc/prometheus/prometheus.yml
+    owner: prometheus
+    group: prometheus
+    mode: "0644"
+
+- name: Start and enable Prometheus service
+  systemd:
+    name: prometheus
+    state: started
+    enabled: yes
+
+- name: Copy Grafana configuration file
+  copy:
+    src: grafana.ini
+    dest: /etc/grafana/grafana.ini
+
+- name: Set permissions on Grafana configuration file
+  file:
+    path: /etc/grafana/grafana.ini
+    owner: grafana
+    group: grafana
+    mode: "0644"
+
+- name: Restart Prometheus service
+  systemd:
+    name: prometheus
+    state: restarted
+    enabled: yes
+
+- name: Restart Grafana service
+  systemd:
+    name: grafana-server
+    state: restarted
+    enabled: yes

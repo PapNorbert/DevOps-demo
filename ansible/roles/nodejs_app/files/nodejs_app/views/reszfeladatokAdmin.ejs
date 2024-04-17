@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset='utf-8' />
+    <title>Részfeladatok</title>
+    <link rel='stylesheet' type='text/css' media='screen' href='https://cdnjs.cloudflare.com/ajax/libs/tufte-css/1.8.0/tufte.min.css'/>
+    <script src='/reszfeladatok_client.js'></script>
+</head>
+<body >
+  <%- include('./partials/loginbar'); %>
+  <%- include('./partials/navbar'); %>
+
+  <div id="reszfeladat-muveletek">
+    <br><br>
+    <button type="button" onclick="window.location.href='/reszfeladatok/admin';">Összes részfeladatok</button>
+    <button type="button" onclick="window.location.href='/reszfeladat_letrehozas';">Részfeladat hozzáadás</button>
+    
+  </div>
+  
+  <h1>Részfeladatok listája</h1>
+
+  
+  <% if (szures) { %>
+    <h2>Kiválasztott rendezvény: <%= kivRendezvenyNev %> </h2>
+    <button type="button" onclick="window.location.href='/reszfeladatok/admin/<%= kivRendezvenyId %>/all';">Összes részfeladat</button>
+    <button type="button" onclick="window.location.href='/reszfeladatok/admin/<%= kivRendezvenyId %>/megoldott';">Megoldott részfeladatok</button>
+    <button type="button" onclick="window.location.href='/reszfeladatok/admin/<%= kivRendezvenyId %>/megoldatlan';">Megoldatlan részfeladatok</button>
+    <button type="button" onclick="window.location.href='/reszfeladatok/admin/<%= kivRendezvenyId %>/kesoi';">Túllépett hataridős részfeladatok</button>
+    <h2><%= szuroSzoveg %> </h2>
+  <% } else { %>
+    <div id="rendezvenyek-szures">
+      <h3>
+        <label>Szűrés rendezvény alapján: </label>
+        <select name="rendezveny-id" id="rendID" >
+        <% if (rendezvenyLista.length) { %>
+          <option value='' > Rendezvény kiválasztása</option>
+          <% rendezvenyLista.forEach((rendezveny) => { %>
+                <option value=<%= rendezveny.rendezvenyId  %> > <%= rendezveny.rendezvenyName  %></option>
+          <% }) %>
+        <% } else { %>
+          Nincsenek hozzáadott rendezvények.
+        <% } %> 
+        </select>
+        <button type="button" onclick="redirect()" id="szures-button">Szűrés</button>
+      </h3>
+      <br>
+    </div>
+  <% } %>
+
+  <% if (reszfeladatok.length) { %>
+    <% reszfeladatok.forEach((reszfeladat) => { %>
+      <div >
+        <% if (!szures) { %>
+          <p>Rendezvény neve : <%= reszfeladat.rendezvenyName %></p>
+        <% } %> 
+        <p>Részfeladat neve : <%= reszfeladat.reszfeladatNev %></p>
+        <p>Részfeladat határideje: <%= reszfeladat.hatarIdo %></p>
+
+        <p>Részfeladat állapota : 
+          <% if (reszfeladat.elvegezve === 1) { %>
+            Elvégezve
+          <% } else { %>
+            Nincs elvégezve
+          <% } %>
+        </p>
+
+        <% if (reszfeladat.elvegezve === 1) { %>
+          <p>
+            Részfeladat elvégzésének dátuma: <%= reszfeladat.elvegzesDatuma  %>
+          </p>
+        <% } %>
+
+        <p>
+          Részfeladatot elvállalt szervező neve:
+          <% if (reszfeladat.felhasznaloName !== null) { %>
+            <span id ="szervezo-reszf-<%= reszfeladat.reszfeladatId  %>">
+              <%= reszfeladat.felhasznaloName %> 
+            </span>
+          <% } else { %>
+            <span id ="szervezo-reszf-<%= reszfeladat.reszfeladatId  %>">
+              Nem vállalta el még senki
+            </span>
+          <% } %>
+        </p>
+
+
+        <button id="reszf-gomb-<%= reszfeladat.reszfeladatId %>" type="button" 
+          onclick="updateReszfeladatSzervezo('<%= reszfeladat.reszfeladatId %>')">
+          <% if (reszfeladat.felhasznaloName !== null) { %>
+            <span id ="gomb-reszf-<%= reszfeladat.reszfeladatId  %>">Szervező eltávolítása</span>
+          <% } else { %>
+            <span id ="gomb-reszf-<%= reszfeladat.reszfeladatId  %>">Szervező hozzáadása</span>
+          <% } %>
+        </button><br>
+
+        <div class="szervezok">
+          <p>
+            <label >Kiválasztott szervező neve: </label>
+            <select name="szervezo-nev" id="reszf-szervnev-<%= reszfeladat.reszfeladatId  %>" >
+            <% if (felhasznaloLista.length) { %>
+                <% felhasznaloLista.forEach((felhasznalo) => { %>   
+                      <option value='<%= felhasznalo.felhasznaloName  %>' > <%= felhasznalo.felhasznaloName  %></option>
+                <% }) %> 
+            <% } else { %>
+              Nincsenek hozzáadott felhasználók.
+            <% } %>
+            </select> 
+          </p>
+        </div>
+
+        <p id="muv-valasz-szoveg-<%= reszfeladat.reszfeladatId %>"></p>
+
+        <br><br>
+      </div>
+    <% }) %>
+  <% } else { %>
+    <% if (szures) { %>
+      <p><%= nincsReszfeladatSzoveg %> </p>
+    <% } else { %>  
+      <p >Nincs létrehozott részfeladat egy rendezvényen sem.</p>
+    <% } %>
+  <% } %>
+
+</body>
+
+
+
+

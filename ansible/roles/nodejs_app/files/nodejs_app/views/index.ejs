@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset='utf-8' />
+    <title>Rendezvények</title>
+    <link rel='stylesheet' type='text/css' media='screen' href='https://cdnjs.cloudflare.com/ajax/libs/tufte-css/1.8.0/tufte.min.css'/>
+    <script src='/index_script_client.js'></script>
+</head>
+<body>
+  <%- include('./partials/loginbar'); %>
+  <%- include('./partials/navbar'); %>
+  <h1>Rendezvények listája</h1>
+
+  <% if (rendezvenyek.length) { %>
+    <% rendezvenyek.forEach((rendezveny) => { %>
+      <div class="rendezveny">
+        <h2 onclick="getSzervezok('<%= rendezveny.rendezvenyId %>')">Rendezvény neve : <%= rendezveny.rendezvenyName %></h2>
+        <p>Rendezvény egyedi ID-ja : <%= rendezveny.rendezvenyId %></p>
+        <p>Rendezvény kezdeti dátuma : <%= rendezveny.startDate %></p>
+        <p>Rendezvény befejezési dátuma : <%= rendezveny.endDate %></p>
+        <p>Rendezvény helyszíne : <%= rendezveny.rendPlace %></p>
+        <p id="szervezok<%= rendezveny.rendezvenyId %>" disabled></p>
+        <% if (locals.payload) { %>
+          <button id="szervezoGomb<%= rendezveny.rendezvenyId %>" type="button" 
+            onclick="updateSzervezok('<%= rendezveny.rendezvenyId %>', '<%= payload.felhasznaloName %>' )"><%= szervezoGombSzoveg %> </button><br>
+        <% } %>
+        <p id="szervezoEvent<%= rendezveny.rendezvenyId %>" disabled></p>
+        <!-- <a href="/rendezveny_reszletes?rendezveny=<%= rendezveny.rendezvenyId%> ">Részletek</a> -->
+        <br><br>
+      </div>
+    <% }) %>
+  <% } else { %>
+    <p ><%= nincsRendezvenySzoveg %> </p>
+  <% } %>
+</body>

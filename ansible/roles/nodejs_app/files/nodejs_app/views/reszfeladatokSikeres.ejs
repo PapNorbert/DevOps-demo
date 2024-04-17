@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset='utf-8' />
+    <title>Részfeladat hozzáadás sikeres</title>
+    <link rel='stylesheet' type='text/css' media='screen' href='https://cdnjs.cloudflare.com/ajax/libs/tufte-css/1.8.0/tufte.min.css'/>
+</head>
+<body>
+  <%- include('./partials/loginbar'); %>
+  <h1>Részfeladat hozzáadás sikeres</h1>
+  <p>Rendezvény ID: <%= rendezvenyID %></p>
+  <p>Részfeladat neve: <%= reszfNev %></p>
+  <p>Részfeladat határideje: <%= hatarido %></p>
+  <br>
+  <p><a href="/">Főoldal</a></p>
+  <p><a href="/reszfeladat_letrehozas">Újabb részfeladat hozzáadása</a></p>
+</body>

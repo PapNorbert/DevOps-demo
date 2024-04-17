@@ -1,0 +1,33 @@
+
+- name: Copy Node.js app files
+  copy:
+    src: "{{ playbook_dir }}/roles/nodejs_app/files/nodejs_app"
+    dest: nodejs
+
+- name: Install Node.js app dependencies
+  command: npm install
+  args:
+    chdir: nodejs/nodejs_app
+
+- name: Create MySQL database
+  command: >
+    mysql -u root  -proot  -e "CREATE DATABASE IF NOT EXISTS webprogramozas;"
+  vars:
+    ansible_become: yes
+    ansible_become_user: root  
+
+- name: Create MySQL user
+  command: >
+    mysql -u root  -proot -e "CREATE USER 'web'@'localhost' IDENTIFIED BY 'webKod887'; GRANT ALL PRIVILEGES ON *.* TO 'web'@'localhost'; FLUSH PRIVILEGES;"
+  vars:
+    ansible_become: yes
+    ansible_become_user: root   
+
+
+- name: Start Node.js app
+  command: npm start
+  args:
+    chdir: nodejs/nodejs_app
+  async: 2000   
+  poll: 0    
+  register: nodejs_app_process

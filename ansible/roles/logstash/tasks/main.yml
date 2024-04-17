@@ -1,0 +1,43 @@
+- name: Import GPG key for Elastic APT repository
+  apt_key:
+    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    state: present
+
+- name: Add Elastic APT repository
+  apt_repository:
+    repo: "deb https://artifacts.elastic.co/packages/7.x/apt stable main"
+    state: present
+    filename: elastic-7.x
+
+- name: Update package cache
+  apt:
+    update_cache: yes
+
+- name: Install Logstash
+  apt:
+    name: logstash
+    state: present
+
+- name: Start Logstash service
+  service:
+    name: logstash
+    state: started
+    enabled: yes
+
+- name: Copy Logstash pipeline configuration file
+  copy:
+    src: pipeline.conf
+    dest: /etc/logstash/conf.d/pipeline.conf
+
+- name: Set permissions on Logstash configuration file
+  file:
+    path: /etc/logstash/conf.d/pipeline.conf
+    owner: logstash
+    group: logstash
+    mode: "0644"
+
+- name: Restart Logstash
+  service:
+    name: logstash
+    state: restarted
+    enabled: yes

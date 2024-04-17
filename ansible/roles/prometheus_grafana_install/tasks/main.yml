@@ -1,0 +1,24 @@
+- name: Install Prometheus
+  apt:
+    name: prometheus
+    state: present
+
+- name: Import GPG key
+  apt_key:
+    url: https://packages.grafana.com/gpg.key
+    state: present
+ 
+- name: Add Grafana repository
+  apt_repository:
+    repo: "deb https://packages.grafana.com/oss/deb stable main"
+    state: present
+    filename: grafana
+
+- name: Update package index
+  apt:
+    update_cache: yes
+
+- name: Install Grafana
+  apt:
+    name: grafana
+    state: present

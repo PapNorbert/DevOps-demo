@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset='utf-8' />
+    <title>Regisztráció</title>
+    <link rel='stylesheet' type='text/css' media='screen' href='https://cdnjs.cloudflare.com/ajax/libs/tufte-css/1.8.0/tufte.min.css'/>
+</head>
+<body>
+  <h1>Regisztráció</h1>
+  <form method="post" action="/auth/register" id="Form">
+
+    <div class="form-element">
+      <p>
+        <label >Teljes név: </label>
+        <% if ( alapErtekek.fullName ) { %>
+          <input type="text" name="fullName" id="teljesnev" title="Teljes név" value='<%= alapErtekek.fullName %>' />
+        <% } else { %>
+          <input type="text" name="fullName" id="teljesnev" title="Teljes név" /> 
+        <% } %> 
+      </p>
+    </div>
+
+    <div class="form-element">
+      <p>
+        <label >Felhasználó Név: </label>
+        <% if ( alapErtekek.userName ) { %>
+          <input type="text" name="userName" id="felhnev" title="Felhasználó név" value='<%= alapErtekek.userName %>' />
+        <% } else { %>
+          <input type="text" name="userName" id="felhnev" title="Felhasználó név" /> 
+        <% } %> 
+      </p>
+    </div>
+
+    <div class="form-element">
+      <p>
+        <label >Jelszó: </label>
+        <% if ( alapErtekek.password ) { %>
+          <input type="password" name="password" id="password" title="Felhasználó jelszó" value='<%= alapErtekek.password %>' />
+        <% } else { %>
+          <input type="password" name="password" id="password" title="Felhasználó jelszó" /> 
+        <% } %> 
+      </p>
+    </div>
+
+    
+    <div class="form-element">
+      <input type="submit" id="submit-button" >
+    </div>
+
+    <% if ( alapErtekek.hiba ) { %>
+      <p style="color:brown;"><%= alapErtekek.hiba %></p>
+    <% } %> 
+
+  </form>
+
+  <p>
+    <a href="/">Főoldal</a>
+  </p>
+</body>

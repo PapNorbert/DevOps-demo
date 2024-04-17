@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset='utf-8' />
+    <title>Rendezvény részletek</title>
+    <link rel='stylesheet' type='text/css' media='screen' href='https://cdnjs.cloudflare.com/ajax/libs/tufte-css/1.8.0/tufte.min.css'/>
+    <script src='/form_feltoltes_check.js'></script>
+</head>
+<body>
+  <%- include('./partials/loginbar'); %>
+  <%- include('./partials/navbar'); %>
+  <h1>Rendezvény részletek</h1>
+  <% if (typeof rendezveny != undefined) { %>
+      <div class="rendezveny">
+        <h2>Rendezvény neve : <%= rendezveny.rendezvenyName %></h2>
+        <p>Rendezvény egyedi ID-ja : <%= rendezveny.rendezvenyId %></p>
+        <p>Rendezvény kezdeti dátuma : <%= rendezveny.startDate %></p>
+        <p>Rendezvény befejezési dátuma : <%= rendezveny.endDate %></p>
+        <p>Rendezvény helyszíne : <%= rendezveny.rendPlace %></p>
+
+        <% if (rendezveny.szervezok.length) { %>
+          <p>Szervezők:
+          <% rendezveny.szervezok.forEach((szervezo) => { %>
+            '<%= szervezo.felhasznaloName %>',  
+          <% }) %>
+          </p>
+        <% } %>
+
+        <% if (szervezo) { %>
+          <p>
+            <a href="/reszfeladatok/szervezo/<%= rendezveny.rendezvenyId %> ">Részfeladatok</a>
+          </p>
+          <p>
+            <a href="/reszfeladatNaplobejegyzesek/<%= rendezveny.rendezvenyId %> ">Részfeladat naplóbejegyzések</a>
+          </p>
+        <% } %>
+
+        <% if (rendezveny.fenykepek.length) { %>
+          <p>Fényképek:</p>
+          <% rendezveny.fenykepek.forEach((kep) => { %>
+            <img src=<%= kep.fenykepName %> >
+          <% }) %>
+          
+        <% } %>
+      </div>
+  <% } else { %>
+    <p >Nincsen létrehozott rendezvény adott Id-val.</p>
+  <% } %>
+  <br>
+
+  <% if (locals.payload) { %>
+    <% if (szervezo) { %>
+      <h2>Fénykép feltöltés</h2>
+      <form method="post" action="/rendezveny_reszletes?id=<%= rendezveny.rendezvenyId%>" id="Form" enctype="multipart/form-data">
+    
+        <div>
+          <p>
+            <label for="upfile">Fénykép feltöltés: </label>
+            <input type="file" name="upload-file" id="upfile" title="Fénykép feltöltés" /> 
+          </p>
+        </div>
+        
+        <% if ( hiba ) { %>
+          <p style="color:brown;"><%= hiba %></p>
+        <% } %> 
+        
+        <div class="form-element">
+          <input type="submit" id="submit-button" disabled>
+        </div>
+      </form>
+    <% } %> 
+  <% } %>
+  
+</body>

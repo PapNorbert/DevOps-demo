@@ -1,0 +1,8 @@
+
+- name: Start Node.js app
+  command: npm start
+  args:
+    chdir: nodejs/nodejs_app
+  async: 2000   
+  poll: 0    
+  register: nodejs_app_process

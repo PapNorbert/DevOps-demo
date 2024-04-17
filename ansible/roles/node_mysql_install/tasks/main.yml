@@ -1,0 +1,27 @@
+---
+- name: Add NodeSource repository for Node.js
+  apt_repository:
+    repo: "ppa:deadsnakes/ppa"
+    update_cache: yes
+
+- name: Install Node.js
+  apt:
+    name: nodejs
+    state: present
+
+- name: Install npm
+  apt:
+    name: npm
+    state: present
+
+- name: Install MySQL
+  apt:
+    name: ['mysql-server']
+    state: present
+
+- name: Configure and start MySQL
+  shell: |
+    systemctl start mysql
+  args:
+    executable: /bin/bash
+

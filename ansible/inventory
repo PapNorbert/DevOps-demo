@@ -1,0 +1,2 @@
+[azvm]
+<IP> ansible_ssh_user=azureadmin ansible_ssh_private_key_file=./az_vm_key_pn

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset='utf-8' />
+    <title>Szervező adatok</title>
+    <link rel='stylesheet' type='text/css' media='screen' href='https://cdnjs.cloudflare.com/ajax/libs/tufte-css/1.8.0/tufte.min.css'/>
+    <script src='admin_szerv_client.js'></script>
+</head>
+<body onload="updateAvailableOperation()">
+  <%- include('./partials/loginbar'); %>
+  <%- include('./partials/navbar'); %>
+  <h1>Szervezők adatainak áttekintése</h1>
+
+  <div id="rendezvenyek">
+    <p>
+      <label>Kiválasztott rendezvény neve: </label>
+      <select name="rendezveny-id" id="rendID" onchange="updateAvailableOperation()">
+      <% if (alapErtekek.rendezvenyLista.length) { %>
+        <% alapErtekek.rendezvenyLista.forEach((rendezveny) => { %>
+            <% if ( alapErtekek.rendID != rendezveny.rendezvenyId) { %>
+              <option value=<%= rendezveny.rendezvenyId  %> > <%= rendezveny.rendezvenyName  %></option>
+            <% } else { %>
+              <option value=<%= rendezveny.rendezvenyId  %> selected > <%= rendezveny.rendezvenyName  %></option>
+            <% } %>
+        <% }) %> 
+      <% } else { %>
+        Nincsenek hozzáadott rendezvények.
+      <% } %> 
+      </select>
+    </p>
+  </div>
+
+  <div id="szervezok">
+    <p>
+      <label >Kiválasztott szervező neve: </label>
+      <select name="szervezo-nev" id="nev" onchange="updateAvailableOperation()">
+      <% if (alapErtekek.felhasznaloLista.length) { %>
+          <% alapErtekek.felhasznaloLista.forEach((felhasznalo) => { %>
+              <% if ( alapErtekek.kivalasztottSzervezo != felhasznalo.felhasznaloName) { %>
+                <option value='<%= felhasznalo.felhasznaloName  %>' > <%= felhasznalo.felhasznaloName  %></option>
+              <% } else { %>
+                <option value='<%= felhasznalo.felhasznaloName  %>' selected > <%= felhasznalo.felhasznaloName  %></option>
+              <% } %>
+          <% }) %> 
+      <% } else { %>
+        Nincsenek hozzáadott felhasználók.
+      <% } %>
+      </select> 
+    </p>
+  </div>
+
+  <p id="rend-szervezok"></p>
+
+  <div id="szerv-muveletek">
+    <p id="hozzaadas" style="display: none;">
+      Szervező hozzáadása a rendezvény szervezői közé:
+      <button type="button" onclick="updateSzervezok()">Hozzáadás</button>
+    </p>
+    <p id="visszalepes" style="display: none;">
+      Szervező visszaléptetése a rendezvény szervezői közül:
+      <button type="button" onclick="updateSzervezok()">Visszaléptetés</button>
+    </p>
+    <p id="szerv-muveletek-hiba"></p>
+  </div>
+
+</body>
+
+
+
+

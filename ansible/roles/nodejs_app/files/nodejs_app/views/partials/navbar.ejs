@@ -1,0 +1,18 @@
+<%#  navbar-ra ervenyes css  %> 
+<link rel='stylesheet' type='text/css' media='screen' href='/admin_navbar.css'/>
+
+<nav>
+  <button type="button" onclick="window.location.href='/';">Főoldal</button>
+
+<% if (locals.payload) { %>   
+  <%#  ha be van jelentkezve  %> 
+  <button type="button" onclick="window.location.href='/rendezvenyek/<%= payload.felhasznaloName %> ';">Csatlakozott rendezvények</button>
+  <% if (payload.type === 'admin') { %>
+
+    <button type="button" onclick="window.location.href='/admin_form';">Rendezvény hozzáadás</button>
+    <button type="button" onclick="window.location.href='/admin_szervezo_adatok';">Szervező adatok</button>
+    <button type="button" onclick="window.location.href='/reszfeladatok/admin';">Részfeladatok</button>
+
+  <% } %>
+<% } %>
+</nav>

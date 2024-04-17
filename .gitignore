@@ -1,0 +1,4 @@
+*.hcl
+
+#  ssh keys
+az_vm_key_pn*

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset='utf-8' />
+    <title>Restricted</title>
+    <link rel='stylesheet' type='text/css' media='screen' href='https://cdnjs.cloudflare.com/ajax/libs/tufte-css/1.8.0/tufte.min.css'/>
+</head>
+<body>
+  <h1><%= uzenet %> </h1>
+  <div>
+    <p>
+      <a href="/">Főoldal</a>
+    </p>
+    <% if (!locals.payload) { %>
+      <p>
+        <a href="/auth/login">Login</a>
+      </p>
+    <% } %>
+  </div>
+  
+</body>

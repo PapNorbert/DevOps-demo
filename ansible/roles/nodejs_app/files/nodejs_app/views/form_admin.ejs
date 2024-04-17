@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset='utf-8' />
+    <title>Rendezveny from</title>
+    <link rel='stylesheet' type='text/css' media='screen' href='https://cdnjs.cloudflare.com/ajax/libs/tufte-css/1.8.0/tufte.min.css'/>
+    <script src='form_admin_check.js'></script>
+</head>
+<body>
+  <%- include('./partials/loginbar'); %>
+  <%- include('./partials/navbar'); %>
+  <h1>Rendezvény bevezetése</h1>
+  <form method="post" action="/admin_form" id="Form">
+
+    <div class="form-element">
+      <p>
+        <label for="nev">Rendezvény neve: </label>
+        <% if ( alapErtekek.name ) { %>
+          <input type="text" name="rendezveny-nev" id="nev" title="Rendezvény neve" value='<%= alapErtekek.name %>' />
+        <% } else { %>
+          <input type="text" name="rendezveny-nev" id="nev" title="Rendezvény neve" /> 
+        <% } %> 
+      </p>
+    </div>
+    <div class="form-element">
+      <p>
+        <label for="start">Rendezvény kezdeti dátuma: </label>
+        <% if ( alapErtekek.startDate ) { %>
+          <input type="date" name="rendezveny-start-date" id="start" value=<%= alapErtekek.startDate %> />
+        <% } else { %>
+          <input type="date" name="rendezveny-start-date" id="start" /> 
+        <% } %> 
+      </p>
+    </div>
+    <div class="form-element">
+      <p>
+        <label for="end">Rendezvény befejezési dátuma: </label>
+        <% if ( alapErtekek.endDate ) { %>
+          <input type="date" name="rendezveny-end-date" id="end" value=<%= alapErtekek.endDate %> />
+        <% } else { %>
+          <input type="date" name="rendezveny-end-date" id="end" /> 
+        <% } %> 
+      </p>
+    </div>
+    <div class="form-element">
+      <p>
+        <label for="helyszin">Rendezvény helyszine: </label>
+        <% if ( alapErtekek.helyszin ) { %>
+          <input type="text" name="rendezveny-helyszin" id="helyszin" value='<%= alapErtekek.helyszin %>' />
+        <% } else { %>
+          <input type="text" name="rendezveny-helyszin" id="helyszin" />
+        <% } %> 
+      </p>
+    </div>
+
+    <div id="error-message" >
+      Rendezvény befejezési dátuma nem lehet a kezdés előtt!
+    </div>
+    <% if ( alapErtekek.hiba ) { %>
+      <p style="color:brown;"><%= alapErtekek.hiba %></p>
+    <% } %> 
+    <div class="form-element">
+      <input type="submit" id="submit-button" disabled>
+    </div>
+
+  </form>
+
+</body>

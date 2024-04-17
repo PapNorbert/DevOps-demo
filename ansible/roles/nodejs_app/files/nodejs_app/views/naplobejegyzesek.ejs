@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset='utf-8' />
+    <title>Részfeladat naplóbejegyzések</title>
+    <link rel='stylesheet' type='text/css' media='screen' href='https://cdnjs.cloudflare.com/ajax/libs/tufte-css/1.8.0/tufte.min.css'/>
+    <link rel='stylesheet' type='text/css' media='screen' href='/naplobejegyzesek.css'/>
+</head>
+<body >
+  <%- include('./partials/loginbar'); %>
+  <%- include('./partials/navbar'); %>
+  <h1>Részfeladat naplóbejegyzések</h1>
+
+  <p>
+    <a href="/rendezveny_reszletes?rendezveny=<%= rendezveny.rendezvenyId%> ">Rendezvény részletek</a>
+  </p>
+
+  <h2>Rendezvény neve: <%= rendezveny.rendezvenyName %> </h2>
+
+  <% if (naplobejegyzesek.length) { %>
+    <table>
+      <tr>
+        <th>Részfeladat neve</th>
+        <th>Módosítás dátuma</th>
+        <th>Leírás</th>
+        <th>Régi érték</th>
+        <th>Új érték</th>
+      </tr>
+      <% naplobejegyzesek.forEach((naplobejegyzes) => { %>
+        <tr>
+          <td><%= naplobejegyzes.reszfeladatNev %></td>
+          <td><%= naplobejegyzes.modositasDatum %></td>
+          <td><%= naplobejegyzes.modositasSzoveg %></td>
+          <td><%= naplobejegyzes.regiErtek %></td>
+          <td><%= naplobejegyzes.ujErtek %></td>
+        </tr>
+      <% }) %>
+    </table>
+  <% } else { %>
+    <p>Nem található egy naplóbejegyzés sem.</p>
+  <% } %>
+
+
+</body>

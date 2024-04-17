@@ -1,0 +1,20 @@
+table {
+  width: 90%;
+  border: thin solid;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  border-collapse: collapse;
+  font-size: large;
+}
+
+th {
+  background-color: rgb(33, 32, 32);
+  color: antiquewhite;
+}
+
+td, th {
+  border-top: thin solid black;
+  border-bottom: thin solid black;
+  border-collapse: collapse;
+  padding: 14px;
+  text-align: center;
+}

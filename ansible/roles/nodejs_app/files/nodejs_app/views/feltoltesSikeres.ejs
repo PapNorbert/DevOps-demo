@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset='utf-8' />
+    <title>Feltoltes form valasz</title>
+    <link rel='stylesheet' type='text/css' media='screen' href='https://cdnjs.cloudflare.com/ajax/libs/tufte-css/1.8.0/tufte.min.css'/>
+</head>
+<body>
+  <%- include('./partials/loginbar'); %>
+  <h1>File sikeresen feltöltve a következő adatok alapján:</h1>
+  <p>Szervező neve: <%= payload.felhasznaloName %> </p>
+  <p>Rendezvény ID: <%= id %></p>
+  <p>Feltöltött állomány neve: <%= allomanyNev %></p>
+  <br>
+  <p><a href="/">Főoldal</a></p>
+  <p><a href="/rendezveny_reszletes?rendezveny=<%= id %>">Vissza a rendezvény részletes oldalára</a></p>
+</body>

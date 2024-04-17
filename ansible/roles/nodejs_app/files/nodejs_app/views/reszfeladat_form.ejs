@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset='utf-8' />
+    <title>Részfeladat létrehozás</title>
+    <link rel='stylesheet' type='text/css' media='screen' href='https://cdnjs.cloudflare.com/ajax/libs/tufte-css/1.8.0/tufte.min.css'/>
+    <script src='./reszfeladat_form_check.js'></script>
+</head>
+<body >
+  <%- include('./partials/loginbar'); %>
+  <%- include('./partials/navbar'); %>
+
+  <div id="reszfeladat-muveletek">
+    <br><br>
+    <button type="button" onclick="window.location.href='/reszfeladatok/admin';">Részfeladatok listázása</button>
+    <% if (payload.type === 'admin') { %>
+      <button type="button" onclick="window.location.href='/reszfeladat_letrehozas';">Részfeladat hozzáadás</button>
+    <% } %>
+    
+  </div>
+  
+
+  <h1>Részfeladat hozzáadása rendezvényekhez</h1>
+
+  <form method="post" action="/reszfeladat_letrehozas" id="Form">
+
+    <div id="rendezvenyek">
+      <p>
+        <label>Kiválasztott rendezvény neve: </label>
+        <select name="rendezveny-id" id="rendID">
+        <% if (alapErtekek.rendezvenyLista.length) { %>
+          <% alapErtekek.rendezvenyLista.forEach((rendezveny) => { %>
+              <% if ( alapErtekek.rendID != rendezveny.rendezvenyId) { %>
+                <option value=<%= rendezveny.rendezvenyId  %> > <%= rendezveny.rendezvenyName  %></option>
+              <% } else { %>
+                <option value=<%= rendezveny.rendezvenyId  %> selected > <%= rendezveny.rendezvenyName  %></option>
+              <% } %>
+          <% }) %> 
+        <% } else { %>
+          Nincsenek hozzáadott rendezvények.
+        <% } %> 
+        </select>
+      </p>
+    </div>
+
+    <div id="rendezveny-datumok">
+      <p >
+        Rendezvény kezdeti dátuma: <span id="rendStartDate"></span>
+      </p>
+      <p >
+        Rendezvény befejezési dátuma: <span id="rendEndDate"></span>
+      </p>
+    </div>
+
+
+    <div class="form-element">
+      <p>
+        <label for="reszfNev">Részfeladat neve: </label>
+        <% if ( alapErtekek.reszfeladatNev ) { %>
+          <input type="text" name="reszfeladat-nev" id="reszfNev" title="Részfeladat neve" value='<%= alapErtekek.reszfeladatNev %>' />
+        <% } else { %>
+          <input type="text" name="reszfeladat-nev" id="reszfNev" title="Részfeladat neve" /> 
+        <% } %> 
+      </p>
+    </div>
+
+    <div class="form-element">
+      <p>
+        <label for="reszfHatarido">Részfeladat határideje: </label>
+        <% if ( alapErtekek.hatarido ) { %>
+          <input type="date" name="reszfeladat-hatarido" id="reszfHatarido" value=<%= alapErtekek.hatarido %> />
+        <% } else { %>
+          <input type="date" name="reszfeladat-hatarido" id="reszfHatarido" /> 
+        <% } %> 
+      </p>
+    </div>
+
+    <div class="form-element">
+      <p>
+        <label >Szervező hozzárendelése (opcionális): </label>
+        <select name="szervezo-nev" id="reszfSzervezoNev" >
+        <% if (alapErtekek.felhasznaloLista.length) { %>
+            <option value='' > Szervező kiválasztása</option>
+            <% alapErtekek.felhasznaloLista.forEach((felhasznalo) => { %>
+                <% if ( alapErtekek.kivalasztottSzervezo != felhasznalo.felhasznaloName) { %>
+                  <option value='<%= felhasznalo.felhasznaloName  %>' > <%= felhasznalo.felhasznaloName  %></option>
+                <% } else { %>
+                  <option value='<%= felhasznalo.felhasznaloName  %>' selected > <%= felhasznalo.felhasznaloName  %></option>
+                <% } %>
+            <% }) %> 
+        <% } else { %>
+          Nincsenek hozzáadott felhasználók.
+        <% } %>
+        </select> 
+      </p>
+    </div>
+
+    <% if ( alapErtekek.hiba ) { %>
+      <p style="color:brown;" id="reszfeladat-hiba"><%= alapErtekek.hiba %></p>
+    <% } else { %>
+      <p style="color:brown;" id="reszfeladat-hiba"></p>
+    <% } %> 
+
+    
+    <div class="form-element">
+      <input type="submit" id="submit-button" disabled>
+    </div>
+
+
+
+  </form>
+
+</body>
+
+
+
+

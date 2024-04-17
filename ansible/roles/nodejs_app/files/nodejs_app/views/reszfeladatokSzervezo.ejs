@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset='utf-8' />
+    <title>Részfeladatok</title>
+    <link rel='stylesheet' type='text/css' media='screen' href='https://cdnjs.cloudflare.com/ajax/libs/tufte-css/1.8.0/tufte.min.css'/>
+    <script src='/reszfeladatok_szervezo_client.js'></script>
+</head>
+<body >
+  <%- include('./partials/loginbar'); %>
+  <%- include('./partials/navbar'); %>
+  <h1>Részfeladatok</h1>
+
+  <h2>Rendezvény neve: <%= rendezveny.rendezvenyName %> </h2>
+
+  <p>
+    <a href="/rendezveny_reszletes?rendezveny=<%= rendezveny.rendezvenyId%> ">Rendezvény részletek</a>
+  </p>
+
+  <button type="button" onclick="window.location.href='/reszfeladatok/szervezo/<%= rendezveny.rendezvenyId %>';">Összes részfeladat</button>
+  <button type="button" onclick="window.location.href='/reszfeladatok/szervezo/<%= rendezveny.rendezvenyId %>/<%= payload.felhasznaloName %> ';">Saját részfeladatok</button>
+
+
+  <% if (reszfeladatok.length) { %>
+    <% reszfeladatok.forEach((reszfeladat) => { %>
+      <div >
+        <p>Részfeladat neve : <%= reszfeladat.reszfeladatNev %></p>
+        <p>Részfeladat határideje: <%= reszfeladat.hatarIdo %></p>
+
+        <p>Részfeladat állapota : 
+          <% if (reszfeladat.elvegezve === 1) { %>
+            <span id="reszf-elvegezve-<%= reszfeladat.reszfeladatId  %>">Elvégezve</span>
+          <% } else { %>
+            <span id="reszf-elvegezve-<%= reszfeladat.reszfeladatId  %>">Nincs elvégezve</span>
+          <% } %>
+        </p>
+        
+        <% if (reszfeladat.elvegezve === 1) { %>
+          <p id="reszf-elvegezve-datum-p-<%= reszfeladat.reszfeladatId  %>" >
+            Részfeladat elvégzésének dátuma: 
+            <span id="reszf-elvegezve-datum-<%= reszfeladat.reszfeladatId  %>"><%= reszfeladat.elvegzesDatuma  %></span>
+          </p>
+        <% } else if ( reszfeladat.felhasznaloName === null || reszfeladat.felhasznaloName === payload.felhasznaloName ) { %>
+          <p id="reszf-elvegezve-datum-p-<%= reszfeladat.reszfeladatId  %>" style="display: none;">
+            Részfeladat elvégzésének dátuma: 
+            <span id="reszf-elvegezve-datum-<%= reszfeladat.reszfeladatId  %>" ></span>
+          </p>
+        <% } %>
+
+        <p>
+          Részfeladatot elvállalt szervező neve:
+          <% if (reszfeladat.felhasznaloName !== null) { %>
+            <span id ="szervezo-reszf-<%= reszfeladat.reszfeladatId  %>">
+              <%= reszfeladat.felhasznaloName %> 
+            </span>
+          <% } else { %>
+            <span id ="szervezo-reszf-<%= reszfeladat.reszfeladatId  %>">
+              Nem vállalta el még senki
+            </span>
+          <% } %>
+        </p>
+        
+        <% if (reszfeladat.felhasznaloName === payload.felhasznaloName) { %>
+          <p>
+            <button id="reszf-gomb-<%= reszfeladat.reszfeladatId %>" type="button" 
+              onclick="updateReszfeladatSzervezo('<%= reszfeladat.reszfeladatId %>', '<%= payload.felhasznaloName %>' )">
+                <span id ="gomb-reszf-<%= reszfeladat.reszfeladatId  %>">Visszalépés</span>
+            </button>
+          </p>
+        <% } else if(reszfeladat.felhasznaloName === null){ %>
+          <p>
+            <button id="reszf-gomb-<%= reszfeladat.reszfeladatId %>" type="button" 
+              onclick="updateReszfeladatSzervezo('<%= reszfeladat.reszfeladatId %>', '<%= payload.felhasznaloName %>' )">
+                <span id ="gomb-reszf-<%= reszfeladat.reszfeladatId  %>">Részfeladat elvállalása</span>
+            </button>
+          </p>
+        <% } %>
+        
+
+        <% if (reszfeladat.felhasznaloName === payload.felhasznaloName && reszfeladat.elvegezve === 0) { %>
+            <p>
+              <button id="elvegezve-gomb-<%= reszfeladat.reszfeladatId %>" type="button" 
+                onclick="updateReszfeladatElvegezve('<%= reszfeladat.reszfeladatId %>', '<%= payload.felhasznaloName %>' )" >
+                  <span id ="gomb-elvegezve-<%= reszfeladat.reszfeladatId  %>">Beállítás megoldottként</span>
+              </button>
+            </p>
+        <% } else if( reszfeladat.felhasznaloName === payload.felhasznaloName || reszfeladat.felhasznaloName === null){ %>
+            <p>
+              <button id="elvegezve-gomb-<%= reszfeladat.reszfeladatId %>" type="button" 
+                onclick="updateReszfeladatElvegezve('<%= reszfeladat.reszfeladatId %>', '<%= payload.felhasznaloName %>' )" 
+                style="display: none;">
+                  <span id ="gomb-elvegezve-<%= reszfeladat.reszfeladatId  %>">Beállítás megoldottként</span>
+              </button>
+            </p>
+        <% } %>
+
+        <p id="muv-valasz-szoveg-<%= reszfeladat.reszfeladatId %>"></p>
+
+        <br><br>
+      </div>
+    <% }) %>
+  <% } else { %> 
+      <p >Nincs létrehozott részfeladat a rendezvényen.</p>
+  <% } %>
+</body>

@@ -1,0 +1,13 @@
+- name: Deploy Node.js app, MySQL, Prometheus, Grafana on Azure VM
+  hosts: azvm
+  gather_facts: yes
+  become: yes
+
+  roles:
+    - node_mysql_install
+    - prometheus_grafana_install
+    - nodejs_app
+    - monitoring_config
+    - logstash
+    # - node_start
+

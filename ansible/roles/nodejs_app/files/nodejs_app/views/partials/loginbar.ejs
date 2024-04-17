@@ -1,0 +1,18 @@
+<div>
+  <% if (locals.payload) { %>   
+    <%#  ha be van jelentkezve  %> 
+    <h3>Bejelentkezve ' <%= payload.felhasznaloName  %> ' névvel</h3>
+    <button type="button" onclick="window.location.href='/auth/logout';">Logout</button>
+    
+  <% } else { %>
+    <h3>Bejelentkezés: 
+      <button type="button" onclick="window.location.href='/auth/login';">Login</button>
+    </h3>
+    
+    <h3>Regisztráció:
+      <button type="button" onclick="window.location.href='/auth/register';">Regisztráció</button>
+    </h3>
+    
+  <% } %>
+</div>
+<br>
